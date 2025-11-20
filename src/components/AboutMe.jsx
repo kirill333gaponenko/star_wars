@@ -15,7 +15,7 @@ const AboutMe = () => {
             }
             )
             .catch(() => setAboutMe('Error'));
-        // return () => console.log('Component OpeningCrawl unmounted');
+
     }, [])
 
     return (
