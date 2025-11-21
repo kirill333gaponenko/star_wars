@@ -10,8 +10,8 @@ const AboutMe = () => {
         fetch(`${base_url}/v1/peoples/1`)
             .then(res => res.json())
             .then(data => {
-                let {id,edited,created,homeworld,image,...restOfData} = data,
-                setAboutMe(restOfData)
+                let {id,edited,created,homeworld,image,...restOfData} = data;
+                setAboutMe(JSON.stringify(restOfData));
             }
             )
             .catch(() => setAboutMe('Error'));
