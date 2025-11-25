@@ -1,17 +1,18 @@
 import {base_url} from "../utils/constants.js";
 import {useEffect, useState} from "react";
+import {millsecToDay} from "../utils/constants.js";
 
 const AboutMe = () => {
     const [hero, setHero] = useState();
     useEffect(() => {
-        const millsecToDay =1000*60*60*24;
-        const hero_storage = localStorage.getItem("hero");
-        const time_storage = +localStorage.getItem("time");
+
+        const hero_storage = JSON.parse(localStorage.getItem("hero"));
+
         const now = (new Date()).getTime();
 
-        if(hero_storage && (Math.abs(time_storage -now)/millsecToDay) <30) {
+        if(hero_storage && (Math.abs(hero_storage.time -now)/millsecToDay) <30) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
-            setHero(JSON.parse(hero_storage));
+            setHero(hero_storage);
         }else{
             fetch(`${base_url}/v1/peoples/1`)
                 .then(response => response.json())
@@ -24,12 +25,14 @@ const AboutMe = () => {
                         mass: data.mass,
                         hair_color: data.hair_color,
                         skin_color: data.skin_color,
-                        eye_color: data.eye_color
+                        eye_color: data.eye_color,
+                        time: now
                     }
                     localStorage.setItem("hero", JSON.stringify(info));
-                    localStorage.setItem("time", now);
+
                     setHero(info);
                 })
+
         }
         }, [])
 
